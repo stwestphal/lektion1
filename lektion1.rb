@@ -10,7 +10,8 @@ else
 text2=" nee"
 end
 
+# commentar! ergebnis-'schublade' wird zum string 'addiert' ;)
+text = titel+" #{ergebnis}"+ text2+'!'
 
-text = titel+" #{ergebnis}"+ text2+'! '
 puts text
 
