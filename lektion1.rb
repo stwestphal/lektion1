@@ -11,6 +11,6 @@ text2=" nee"
 end
 
 
-text = titel+" #{ergebnis}"+ text2+' !'
+text = titel+" #{ergebnis}"+ text2+'!'
 puts text
 
