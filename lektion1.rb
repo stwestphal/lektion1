@@ -1,11 +1,14 @@
 require 'csv'
-
+require 'pry'
 
 segmentArray = Array.new
 
-CSV.foreach ('./Close.io_nodes_2016_10.csv') do |row|
-  myline = row.to_s
-  mydumparray = myline.split(",")
+# file holen und die dritte spalte in ein array (die anderen spalten interessieren hier nicht)
+CSV.foreach("./Close.io_nodes_2016_10.csv",:headers=>false) do |row|
+
+  myline = row.to_a   #to_a umwandeln in array: spart split und escapes-muell!
+
+  #mydumparray = myline.split(",")
 
   # Callagent
   # Datum (Berlin)
@@ -14,37 +17,37 @@ CSV.foreach ('./Close.io_nodes_2016_10.csv') do |row|
   # Dauer(Minuten)
   # Note
 
-  segmentArray.push(mydumparray[3])
+  segmentArray.push(myline[3])
 
 end
 
-ausgabeArray=segmentArray.each_with_object(Hash.new(0)) { |o, h| h[o] += 1 }
+# namen im array zaehlen und zaehler im hash
+ausgabeHash = {}
+ausgabeArray=segmentArray.each do |item|
 
-puts ausgabeArray.sort
+  ausgabeHash[item] = 0 if ausgabeHash[item].nil?
+  ausgabeHash[item] += 1
 
-puts "Gesamt Ergebnis #{ausgabeArray.length}"
+end
+
+
+#binding.pry    #stoppt ausführung
+
+
+#******fileausgabe***********
+
+printf "%-30s %s\n","Segment-Type","Anzahl"
+ausgabeHash.drop(1).sort.each do |key, value|
+
+  printf("%-30s %s\n",key, value)
+end
+printf("%-30s %s\n","Gesamt Ergebnis",ausgabeArray.length-1)
+
+
+#***********************
+
 
 puts"**********************"
 
-#    CSV.foreach("./Close.io_nodes_2016_10.csv", quote_char: '"', col_sep: ';', row_sep: :auto, headers: true) do |row|
-#      puts row[0]
-#      puts row['xxx']
-#    end
 
-#titel="hallo"
-#aktuellesJahr =2016
-#geburt =1963
-
-#ergebnis = aktuellesJahr % geburt
-
-#if ergebnis>30
-#text2=" ok"
-#else
-#text2=" nee"
-#end
-
-# commentar: ergebnis-'schublade' wird zum string 'addiert' ;)
-#text = titel+" #{ergebnis}"+ text2+'!'
-
-#puts text
 
